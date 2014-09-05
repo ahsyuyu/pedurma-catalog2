@@ -13,6 +13,7 @@
 	out=arr.reduce(function(prev,now){return intersect(prev,now);});
 	var result=doFindAllRecen(out);
 	document.getElementById("result").innerHTML=result.join("<br>");
+	document.getElementById("amount").innerHTML=out.length;
 }
 //共有的每個經號去找有各自經號的版本
 var doFindAllRecen=function(intersect){ //intersect=找到共有經號的陣列
@@ -29,7 +30,7 @@ var findAllRecen=function(KJing){
 	var out=[];
 	for(var i in recen){
 		var j=0;
-		while(j<recen[i].length && recen[i][j]<KJing)j++;
+		while(j<recen[i].length && parseInt(recen[i][j])<parseInt(KJing))j++;
 		if(recen[i][j] == KJing){
 			out.push(i);
 		}
@@ -41,7 +42,7 @@ var intersect=function(arr1,arr2){
 	var result=[];
 	var j=0;
 	for(var i=0; i<arr1.length; i++){
-		while(j<arr2.length && arr2[j]<arr1[i])j++;
+		while(j<arr2.length && parseInt(arr2[j])<parseInt(arr1[i]))j++;
 		if(arr1[i] == arr2[j])result.push(arr1[i]);			
 	}
 	//console.log(result);
