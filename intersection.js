@@ -1,4 +1,4 @@
-var doIntersect=function(){//intersect=共有
+﻿var doIntersect=function(){//intersect=共有
 	var form=document.getElementById("form");
 	var arr=[];
 	var out=[];
@@ -9,6 +9,7 @@ var doIntersect=function(){//intersect=共有
 			arr.push(recen[form.recension[i].value]);
 		}
 	}
+	//out= 最後交集的結果
 	out=arr.reduce(function(prev,now){return intersect(prev,now);});
 	var result=doFindAllRecen(out);
 	document.getElementById("result").innerHTML=result.join("<br>");
@@ -33,7 +34,7 @@ var findAllRecen=function(KJing){
 			out.push(i);
 		}
 	}
-	return out;//有KJing的版本
+	return out;//有KJing的版本們
 }
 
 var intersect=function(arr1,arr2){
