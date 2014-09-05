@@ -2,6 +2,7 @@
 	var form=document.getElementById("form");
 	var arr=[];
 	var out=[];
+	var out_unique=[];
 	//var result=[];
 	for(var i=0; i<form.recension.length; i++){
 		if(form.recension[i].checked){
@@ -11,31 +12,43 @@
 	}
 	//out= 最後交集的結果
 	out=arr.reduce(function(prev,now){return intersect(prev,now);});
-	var result=doFindAllRecen(out);
+	out_unique=unique(out);
+	var result=doFindAllRecen(out_unique);
 	document.getElementById("result").innerHTML=result.join("<br>");
 	document.getElementById("amount").innerHTML=out.length;
 }
+
 //共有的每個經號去找有各自經號的版本
 var doFindAllRecen=function(intersect){ //intersect=找到共有經號的陣列
 	var out=[];
 	for(var j=0; j<intersect.length; j++){
 		var allRecen=findAllRecen(intersect[j]);
-		var r="<li>"+intersect[j]+":"+allRecen.join(",")+"</li>";//經號：有此經號的版本
+		var sutra=addSutraName(intersect[j]);
+		var r="<li>"+intersect[j]+sutra+":"+allRecen.join(",")+"</li>";//經號：有此經號的版本
 		out.push(r);
 	}	
 	return out;
 }
+
+var addSutraName=function(Jing){
+	for(var i=0; i<sutranames.length; i++){
+		if(Jing == sutranames[i][0]){
+			return sutranames[i][1];
+			break;
+		}
+	}
+}
 //找有其經號的版本
-var findAllRecen=function(KJing){
+var findAllRecen=function(Jing){
 	var out=[];
 	for(var i in recen){
 		var j=0;
-		while(j<recen[i].length && parseInt(recen[i][j])<parseInt(KJing))j++;
-		if(recen[i][j] == KJing){
+		while(j<recen[i].length && parseInt(recen[i][j])<parseInt(Jing))j++;
+		if(recen[i][j] == Jing){
 			out.push(i);
 		}
 	}
-	return out;//有KJing的版本們
+	return out;//有Jing的版本們
 }
 
 var intersect=function(arr1,arr2){
@@ -49,3 +62,13 @@ var intersect=function(arr1,arr2){
 	return result;
 }
 
+
+var unique=function(arr){
+	var unique=[];
+	arr.forEach(function(value){
+		if (unique.indexOf(value) == -1){
+			unique.push(value);
+		}
+	})
+	return unique;
+}
