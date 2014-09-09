@@ -1,8 +1,10 @@
-﻿var doIntersect=function(){//intersect=共有
+﻿//form2.calculate.value
+var doIntersect=function(){//intersect=共有
 	var form=document.getElementById("form");
+	var form2=document.getElementById("form2");
 	var arr=[];
 	var out=[];
-	var out_unique=[];
+	var out_noRepeat=[];
 	//var result=[];
 	for(var i=0; i<form.recension.length; i++){
 		if(form.recension[i].checked){
@@ -11,9 +13,9 @@
 		}
 	}
 	//out= 最後交集的結果
-	out=arr.reduce(function(prev,now){return intersect(prev,now);});
-	out_unique=unique(out);
-	var result=doFindAllRecen(out_unique);
+	out=arr.reduce(function(prev,now){return intersect(prev,now,form2.calculate.value);});
+	out_noRepeat=noRepeat(out);
+	var result=doFindAllRecen(out_noRepeat);
 	document.getElementById("result").innerHTML=result.join("<br>");
 	document.getElementById("amount").innerHTML=out.length;
 }
@@ -51,19 +53,20 @@ var findAllRecen=function(Jing){
 	return out;//有Jing的版本們
 }
 
-var intersect=function(arr1,arr2){
+var intersect=function(arr1,arr2,calculate){
 	var result=[];
 	var j=0;
 	for(var i=0; i<arr1.length; i++){
 		while(j<arr2.length && parseInt(arr2[j])<parseInt(arr1[i]))j++;
-		if(arr1[i] == arr2[j])result.push(arr1[i]);			
+		if(calculate == "intersect" && arr1[i] == arr2[j]  )result.push(arr1[i]);	
+		if(calculate == "unique" && arr1[i] != arr2[j]  )result.push(arr1[i]);		
 	}
 	//console.log(result);
 	return result;
 }
 
 
-var unique=function(arr){
+var noRepeat=function(arr){
 	var unique=[];
 	arr.forEach(function(value){
 		if (unique.indexOf(value) == -1){
